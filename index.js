@@ -49,7 +49,24 @@ const Resizeable = ({ template }) => {
 
   return html`
     <div
-      className=${ow`relative flex-1 flex flex-col items-start justify-start mr-8 mb-8 rounded-xl overflow-hidden hover:scale-102 transition duration-150 ease-in-out hover:cursor-pointer`}
+      className=${ow`
+        relative
+        flex-1
+        flex
+        flex-col
+        items-start
+        justify-start
+        mr-10
+        mb-10
+        rounded-xl
+        overflow-hidden
+        hover:scale-102
+        transition
+        duration-150
+        ease-in-out
+        hover:cursor-pointer
+        shadow-xl
+      `}
       style="flex:${data.initial.width}px;"
       ref=${ref}
     >
@@ -68,10 +85,10 @@ const app = () => {
     }))
   );
   return html`
-    <main className=${ow`flex h-screen bg-gray-800`}>
+    <main className=${ow`flex h-screen pt-10 px-10`} style="background:#131313">
       <div
-        style="height:90%; width:90%"
-        className=${ow`m-auto resize overflow-auto bg-gray-900 flex flex-wrap items-stretch pt-8 pl-8 rounded-2xl`}
+        style="height:100%; width:100%;"
+        className=${ow`m-auto resize overflow-auto flex flex-wrap items-stretch pt-10 pl-10 rounded-2xl`}
         onClick=${(e) =>
           setWidgets([...widgets].sort((x) => 0.5 - Math.random()))}
       >
@@ -87,7 +104,7 @@ const app = () => {
                       style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
                     >
                       <div
-                        className=${ow`space-y-4 p-10 bottom-0 relative z-1 mt-auto`}
+                        className=${ow`space-y-4 p-10 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
                       >
                         <h1
                           className=${ow`font-bold cap-20-10 text-white opacity-90`}
@@ -106,7 +123,7 @@ const app = () => {
                       style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
                     >
                       <div
-                        className=${ow`space-y-8 p-16 bottom-0 relative z-1 mt-auto`}
+                        className=${ow`space-y-8 p-16 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
                       >
                         <h1
                           className=${ow`font-bold cap-24-10 text-white opacity-90`}
@@ -132,7 +149,7 @@ const app = () => {
                       style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
                     >
                       <div
-                        className=${ow`space-y-6 px-24 py-24 bottom-0 relative z-1 mt-auto`}
+                        className=${ow`space-y-6 px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
                       >
                         <h1
                           className=${ow`font-bold cap-28-20 text-white opacity-90`}
@@ -160,7 +177,7 @@ const app = () => {
                       style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
                     >
                       <div
-                        className=${ow`space-y-8 px-24 py-24 bottom-0 relative z-1 mt-auto`}
+                        className=${ow`space-y-8 px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
                       >
                         <h1
                           className=${ow`font-bold cap-36-28 text-white opacity-90`}
@@ -192,7 +209,7 @@ const app = () => {
                       style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
                     >
                       <div
-                        className=${ow`px-24 py-24 bottom-0 relative z-1 mt-auto`}
+                        className=${ow`px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
                       >
                         <div
                           className=${ow`pl-16 py-16 space-y-8 border-l-4 border-white border-solid`}
@@ -208,7 +225,7 @@ const app = () => {
                             Onsectetur adipiscing elit sed.
                           </h2>
                           <p
-                            className=${ow`cap-18-16 max-w-4xl text-white opacity-80`}
+                            className=${ow`cap-18-16 max-w-4xl text-white opacity-75`}
                           >
                             Lorem ipsum dolor sit amet, consectetur adipiscing
                             elit, sed do eiusmod tempor incididunt ut labore et
