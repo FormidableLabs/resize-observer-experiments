@@ -88,7 +88,7 @@ const app = () => {
     <main className=${ow`flex h-screen pt-10 px-10`} style="background:#131313">
       <div
         style="height:100%; width:100%;"
-        className=${ow`m-auto resize overflow-auto flex flex-wrap items-stretch pt-10 pl-10 rounded-2xl`}
+        className=${ow`m-auto flex flex-wrap items-stretch pt-10 pl-10 rounded-2xl`}
         onClick=${(e) =>
           setWidgets([...widgets].sort((x) => 0.5 - Math.random()))}
       >
@@ -131,7 +131,7 @@ const app = () => {
                           Lorem ipsum dolor sit
                         </h1>
                         <p
-                          className=${ow`cap-13-14 max-w-4xl text-white opacity-80`}
+                          className=${ow`cap-13-14 max-w-4xl text-white opacity-75`}
                         >
                           Lorem ipsum dolor sit amet, consectetur adipiscing
                           elit. Sed do eiusmod.
@@ -158,7 +158,7 @@ const app = () => {
                         </h1>
                         <div className=${ow`w-10 border-1 border-white`}></div>
                         <p
-                          className=${ow`cap-14-14 max-w-4xl text-white opacity-80`}
+                          className=${ow`cap-14-14 max-w-4xl text-white opacity-75`}
                         >
                           Lorem ipsum dolor sit amet, consectetur adipiscing
                           elit, sed do eiusmod tempor incididunt ut labore et
@@ -190,7 +190,7 @@ const app = () => {
                           Onsectetur adipiscing elit.
                         </h2>
                         <p
-                          className=${ow`cap-16-16 max-w-4xl text-white opacity-80`}
+                          className=${ow`cap-16-16 max-w-4xl text-white opacity-75`}
                         >
                           Lorem ipsum dolor sit amet, consectetur adipiscing
                           elit, sed do eiusmod tempor incididunt ut labore et
