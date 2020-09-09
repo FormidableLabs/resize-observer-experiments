@@ -151,3 +151,7 @@ It makes you wonder, why? What are we missing?
 ### A butterfly flaps its wings
 
 Soon enough people started talking about _element queries_. That is what I will be exploring the feasibility of in this report.
+
+- Recursive problem
+- Area and orientation
+- Variable content
