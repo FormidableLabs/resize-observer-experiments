@@ -1,0 +1,12 @@
+{
+  "name": "roe",
+  "version": "1.0.0",
+  "description": "resize observer experiements",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx servor --browse --reload --editor"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
