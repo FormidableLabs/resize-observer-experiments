@@ -104,16 +104,20 @@ const app = () => {
                       style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
                     >
                       <div
-                        className=${ow`space-y-4 p-10 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
+                        className=${ow`space-y-3 p-10 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
                       >
                         <h1
                           className=${ow`font-bold cap-20-10 text-white opacity-90`}
                         >
                           Lorem ipsum
                         </h1>
-                        <a className=${ow`text-white block underline cap-12-0`}
-                          >Read more</a
-                        >
+                        <div className=${ow`flex items-center space-x-2`}>
+                          <img className=${ow`w-6 -ml-1`} src="read-more.svg" />
+                          <a
+                            className=${ow`text-white block underline cap-12-0`}
+                            >Explore</a
+                          >
+                        </div>
                       </div>
                     </div>
                   `,
@@ -123,7 +127,7 @@ const app = () => {
                       style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
                     >
                       <div
-                        className=${ow`space-y-8 p-16 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
+                        className=${ow`space-y-6 p-16 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
                       >
                         <h1
                           className=${ow`font-bold cap-24-10 text-white opacity-90`}
@@ -136,10 +140,13 @@ const app = () => {
                           Lorem ipsum dolor sit amet, consectetur adipiscing
                           elit. Sed do eiusmod.
                         </p>
-                        <a
-                          className=${ow`text-white block underline cap-16-0 pt-1`}
-                          >Read more</a
-                        >
+                        <div className=${ow`flex items-center space-x-2`}>
+                          <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
+                          <a
+                            className=${ow`text-white block underline cap-12-0`}
+                            >Find Out More</a
+                          >
+                        </div>
                       </div>
                     </div>
                   `,
@@ -164,10 +171,13 @@ const app = () => {
                           elit, sed do eiusmod tempor incididunt ut labore et
                           dolore magna aliqua.
                         </p>
-                        <a
-                          className=${ow`text-white block underline cap-16-0 pt-2`}
-                          >Read the article</a
-                        >
+                        <div className=${ow`flex items-center space-x-2`}>
+                          <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
+                          <a
+                            className=${ow`text-white block underline cap-14-0`}
+                            >Read The Article</a
+                          >
+                        </div>
                       </div>
                     </div>
                   `,
@@ -196,10 +206,13 @@ const app = () => {
                           elit, sed do eiusmod tempor incididunt ut labore et
                           dolore magna aliqua.
                         </p>
-                        <a
-                          className=${ow`text-white block underline cap-18-0 pt-3`}
-                          >Read the article</a
-                        >
+                        <div className=${ow`flex items-center space-x-2`}>
+                          <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
+                          <a
+                            className=${ow`text-white block underline cap-14-0`}
+                            >Read The Article</a
+                          >
+                        </div>
                       </div>
                     </div>
                   `,
@@ -233,10 +246,16 @@ const app = () => {
                             nostrud exercitation ullamco laboris nisi ut aliquip
                             ex ea commodo.
                           </p>
-                          <a
-                            className=${ow`text-white block underline cap-24-0 pt-4`}
-                            >Read the full article</a
-                          >
+                          <div className=${ow`flex items-center space-x-2`}>
+                            <img
+                              className=${ow`w-8 -ml-1`}
+                              src="read-more.svg"
+                            />
+                            <a
+                              className=${ow`text-white block underline cap-16-0`}
+                              >Continue Reading</a
+                            >
+                          </div>
                         </div>
                       </div>
                     </div>
