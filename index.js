@@ -1,17 +1,18 @@
 import { render, h } from 'https://unpkg.com/preact@latest?module';
 import { useState } from 'https://unpkg.com/preact@latest/hooks/dist/hooks.module.js?module';
-import htm from 'https://unpkg.com/htm?module';
 import { themed } from 'https://unpkg.com/oceanwind/index.min.js';
 
 import useResizeObserver from './useResizeObserver.js';
+import card from './widgets/card.js';
 
-const ow = themed({
+import htm from 'https://unpkg.com/htm?module';
+export const html = htm.bind(h);
+
+export const ow = themed({
   scale: {
     102: '1.02',
   },
 });
-
-const html = htm.bind(h);
 
 const Resizeable = ({ template }) => {
   const [data, setData] = useState({
@@ -86,8 +87,7 @@ const app = () => {
   );
   return html`
     <main className=${ow`flex h-screen pt-10 px-10`} style="background:#131313">
-      <div
-        style="height:100%; width:100%;"
+      <section
         className=${ow`m-auto flex flex-wrap items-stretch pt-10 pl-10 rounded-2xl`}
         onClick=${(e) =>
           setWidgets([...widgets].sort((x) => 0.5 - Math.random()))}
@@ -98,173 +98,17 @@ const app = () => {
               <${Resizeable}
                 key=${i.id}
                 template=${{
-                  XS: html`
-                    <div
-                      className=${ow`bg-gray-600 w-full h-full flex`}
-                      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-                    >
-                      <div
-                        className=${ow`space-y-3 p-10 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-                      >
-                        <h1
-                          className=${ow`font-bold cap-20-10 text-white opacity-90`}
-                        >
-                          Lorem ipsum
-                        </h1>
-                        <div className=${ow`flex items-center space-x-2`}>
-                          <img className=${ow`w-6 -ml-1`} src="read-more.svg" />
-                          <a
-                            className=${ow`text-white block underline cap-12-0`}
-                            >Explore</a
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  `,
-                  SM: html`
-                    <div
-                      className=${ow`bg-gray-600 w-full h-full flex`}
-                      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-                    >
-                      <div
-                        className=${ow`space-y-6 p-16 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-                      >
-                        <h1
-                          className=${ow`font-bold cap-24-10 text-white opacity-90`}
-                        >
-                          Lorem ipsum dolor sit
-                        </h1>
-                        <p
-                          className=${ow`cap-13-14 max-w-4xl text-white opacity-75`}
-                        >
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Sed do eiusmod.
-                        </p>
-                        <div className=${ow`flex items-center space-x-2`}>
-                          <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
-                          <a
-                            className=${ow`text-white block underline cap-12-0`}
-                            >Find Out More</a
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  `,
-                  MD: html`
-                    <div
-                      className=${ow`bg-gray-600 w-full h-full flex`}
-                      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-                    >
-                      <div
-                        className=${ow`space-y-6 px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-                      >
-                        <h1
-                          className=${ow`font-bold cap-28-20 text-white opacity-90`}
-                        >
-                          Lorem ipsum dolor sit
-                        </h1>
-                        <div className=${ow`w-10 border-1 border-white`}></div>
-                        <p
-                          className=${ow`cap-14-14 max-w-4xl text-white opacity-75`}
-                        >
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
-                        <div className=${ow`flex items-center space-x-2`}>
-                          <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
-                          <a
-                            className=${ow`text-white block underline cap-14-0`}
-                            >Read The Article</a
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  `,
-                  LG: html`
-                    <div
-                      className=${ow`bg-gray-600 w-full h-full flex`}
-                      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-                    >
-                      <div
-                        className=${ow`space-y-8 px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-                      >
-                        <h1
-                          className=${ow`font-bold cap-36-28 text-white opacity-90`}
-                        >
-                          Lorem ipsum dolor sit
-                        </h1>
-                        <h2
-                          className=${ow`font-bold cap-24-32 text-white opacity-90`}
-                        >
-                          Onsectetur adipiscing elit.
-                        </h2>
-                        <p
-                          className=${ow`cap-16-16 max-w-4xl text-white opacity-75`}
-                        >
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
-                        <div className=${ow`flex items-center space-x-2`}>
-                          <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
-                          <a
-                            className=${ow`text-white block underline cap-14-0`}
-                            >Read The Article</a
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  `,
-                  XL: html`
-                    <div
-                      className=${ow`bg-gray-600 w-full h-full flex`}
-                      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-                    >
-                      <div
-                        className=${ow`px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-                      >
-                        <div
-                          className=${ow`pl-16 py-16 space-y-8 border-l-4 border-white border-solid`}
-                        >
-                          <h1
-                            className=${ow`font-bold cap-36-28 text-white opacity-90`}
-                          >
-                            Lorem ipsum dolor sit amet
-                          </h1>
-                          <h2
-                            className=${ow`font-bold cap-24-32 text-white opacity-90`}
-                          >
-                            Onsectetur adipiscing elit sed.
-                          </h2>
-                          <p
-                            className=${ow`cap-18-16 max-w-4xl text-white opacity-75`}
-                          >
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo.
-                          </p>
-                          <div className=${ow`flex items-center space-x-2`}>
-                            <img
-                              className=${ow`w-8 -ml-1`}
-                              src="read-more.svg"
-                            />
-                            <a
-                              className=${ow`text-white block underline cap-16-0`}
-                              >Continue Reading</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  `,
+                  XS: card.XS(i),
+                  SM: card.SM(i),
+                  MD: card.MD(i),
+                  LG: card.LG(i),
+                  XL: card.XL(i),
                 }}
               />
             `
         )}
-      </div>
+      </section>
+      <aside></aside>
     </main>
   `;
 };
