@@ -16,12 +16,12 @@ export const collection = () =>
       shortDescription: lorem(10),
       description: lorem(20),
       longDescription: lorem(30),
-      priority: [320, 480, 640, 768][(Math.random() * 3) << 0],
+      priority: [240, 320, 480, 640][(Math.random() * 3) << 0],
     };
   });
 
 const bg = (i) =>
-  `background-image: url('${i.img}'), linear-gradient(to bottom, #666, #333); background-size: cover; background-blend-mode: overlay;`;
+  `background-image: url('${i.img}'), linear-gradient(to bottom, #777, #333); background-size: cover; background-blend-mode: overlay;`;
 
 const card = {
   XS: (i) => html`
@@ -76,11 +76,11 @@ const card = {
   `,
   LG: (i) => html`
     <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
-      <div className=${ow`space-y-8 px-24 py-24 bottom-0 relative z-1 mt-auto`}>
-        <h1 className=${ow`font-bold cap-36-28 text-white opacity-90`}>
+      <div className=${ow`space-y-6 px-24 py-24 bottom-0 relative z-1 mt-auto`}>
+        <h1 className=${ow`font-bold cap-30-24 text-white opacity-90`}>
           ${i.title}
         </h1>
-        <h2 className=${ow`font-bold cap-24-28 text-white opacity-90`}>
+        <h2 className=${ow`font-bold cap-20-18 text-white opacity-90`}>
           ${i.subTitle}
         </h2>
         <p className=${ow`cap-16-16 max-w-4xl text-white opacity-75`}>
