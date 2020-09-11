@@ -27,20 +27,26 @@ const app = () => {
   const aside = widgets.find((x) => x.id === focus) || {};
 
   return html`
-    <main className=${ow`flex h-screen bg-gray-300`}>
+    <main className=${ow`flex h-screen bg-gray-100`}>
       <section className=${ow`h-screen overflow-auto w-full p-10 space-y-10`}>
-        <nav className=${ow`w-full flex-none flex space-x-8`}>
-          <${Input.template}
-            placeholder="Search for articles.."
-            onInput=${(e) => setSearch(e.target.value)}
-          />
-          <button
-            className=${ow`px-12 rounded-full bg-gray-600 text-2xl font-bold text-gray-400`}
-            onClick=${(e) =>
-              setWidgets([...widgets].sort((x) => 0.5 - Math.random()))}
-          >
-            SHUFFLE
-          </button>
+        <nav className=${ow`w-full`}>
+          <${Grid.template}>
+            <div style="flex: 4 4 320px">
+              <${Input.template}
+                placeholder="Search for articles.."
+                onInput=${(e) => setSearch(e.target.value)}
+                className=${ow`max-w-full w-full bg-gray-400 rounded-full placeholder-gray-600 border-solid border-2 border-gray-300 text-gray-700`}
+              />
+            </div>
+            <button
+              style="flex: 1 1 100px"
+              className=${ow`flex-grow flex-shrink px-12 py-6 rounded-full bg-gray-600 text-2xl font-bold text-gray-100`}
+              onClick=${(e) =>
+                setWidgets([...widgets].sort((x) => 0.5 - Math.random()))}
+            >
+              SHUFFLE
+            </button>
+          <//>
         </nav>
         <${Grid.template}>
           ${widgets
@@ -58,7 +64,7 @@ const app = () => {
         <//>
       </section>
       <aside
-        className=${ow`relative bg-gray-200 w-full`}
+        className=${ow`relative bg-white w-full`}
         style="max-width: ${focus ? '38%' : '0%'}"
       >
         <div
@@ -68,13 +74,12 @@ const app = () => {
           <${Article} key=${focus} data=${aside} />
           <button
             onClick=${(e) => setFocus(null)}
-            className=${ow`absolute top-0 right-0 p-8 opacity-75`}
+            className=${ow`absolute top-0 right-0 mt-8 bg-white rounded-l-full p-3 text-gray-500`}
           >
             <svg
-              className=${ow`w-32`}
+              className=${ow`w-20 fill-current`}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              fill="#fff"
             >
               <path d="M0 0h24v24H0z" fill="none" />
               <path
