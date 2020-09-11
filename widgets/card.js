@@ -1,17 +1,34 @@
-import lorem from 'https://unpkg.com/ipsums';
-import { html, ow } from '../index.js';
+import { html, ow, lorem } from '../index.js';
+import useResizeObserver from '../useResizeObserver.js';
 
-export default {
+export const collection = () =>
+  Array.from({ length: 12 }, () => {
+    const title = lorem(8);
+    return {
+      id: Math.random().toString(36),
+      img: `https://source.unsplash.com/collection/1103088/${
+        (1000 + Math.random() * 100) << 0
+      }x${(1000 + Math.random() * 100) << 0}`,
+      shortTitle: title.split(' ').slice(0, 2).join(' '),
+      title: title.split(' ').slice(0, 4).join(' '),
+      longTitle: title,
+      subTitle: lorem(5),
+      shortDescription: lorem(10),
+      description: lorem(20),
+      longDescription: lorem(30),
+      priority: [320, 480, 640, 768][(Math.random() * 3) << 0],
+    };
+  });
+
+const bg = (i) =>
+  `background-image: url('${i.img}'), linear-gradient(to bottom, #666, #333); background-size: cover; background-blend-mode: overlay;`;
+
+const card = {
   XS: (i) => html`
-    <div
-      className=${ow`bg-gray-600 w-full h-full flex`}
-      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-    >
-      <div
-        className=${ow`space-y-3 p-10 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-      >
+    <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
+      <div className=${ow`space-y-3 p-10 bottom-0 relative z-1 mt-auto`}>
         <h1 className=${ow`font-bold cap-20-10 text-white opacity-90`}>
-          ${lorem(2)}
+          ${i.shortTitle}
         </h1>
         <div className=${ow`flex items-center space-x-2`}>
           <img className=${ow`w-6 -ml-1`} src="read-more.svg" />
@@ -21,18 +38,13 @@ export default {
     </div>
   `,
   SM: (i) => html`
-    <div
-      className=${ow`bg-gray-600 w-full h-full flex`}
-      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-    >
-      <div
-        className=${ow`space-y-6 p-16 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-      >
+    <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
+      <div className=${ow`space-y-6 p-16 bottom-0 relative z-1 mt-auto`}>
         <h1 className=${ow`font-bold cap-24-18 text-white opacity-90`}>
-          ${lorem(4)}
+          ${i.title}
         </h1>
         <p className=${ow`cap-13-14 max-w-4xl text-white opacity-75`}>
-          ${lorem(10)}
+          ${i.shortDescription}
         </p>
         <div className=${ow`flex items-center space-x-2`}>
           <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
@@ -44,19 +56,14 @@ export default {
     </div>
   `,
   MD: (i) => html`
-    <div
-      className=${ow`bg-gray-600 w-full h-full flex`}
-      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-    >
-      <div
-        className=${ow`space-y-6 px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-      >
+    <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
+      <div className=${ow`space-y-6 px-24 py-24 bottom-0 relative z-1 mt-auto`}>
         <h1 className=${ow`font-bold cap-28-20 text-white opacity-90`}>
-          ${lorem(4)}
+          ${i.title}
         </h1>
         <div className=${ow`w-10 border-1 border-white`}></div>
         <p className=${ow`cap-14-14 max-w-4xl text-white opacity-75`}>
-          ${lorem(20)}
+          ${i.description}
         </p>
         <div className=${ow`flex items-center space-x-2`}>
           <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
@@ -68,21 +75,16 @@ export default {
     </div>
   `,
   LG: (i) => html`
-    <div
-      className=${ow`bg-gray-600 w-full h-full flex`}
-      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-    >
-      <div
-        className=${ow`space-y-8 px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-      >
+    <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
+      <div className=${ow`space-y-8 px-24 py-24 bottom-0 relative z-1 mt-auto`}>
         <h1 className=${ow`font-bold cap-36-28 text-white opacity-90`}>
-          ${lorem(4)}
+          ${i.title}
         </h1>
-        <h2 className=${ow`font-bold cap-24-32 text-white opacity-90`}>
-          ${lorem(4)}
+        <h2 className=${ow`font-bold cap-24-28 text-white opacity-90`}>
+          ${i.subTitle}
         </h2>
         <p className=${ow`cap-16-16 max-w-4xl text-white opacity-75`}>
-          ${lorem(20)}
+          ${i.description}
         </p>
         <div className=${ow`flex items-center space-x-2`}>
           <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
@@ -94,24 +96,19 @@ export default {
     </div>
   `,
   XL: (i) => html`
-    <div
-      className=${ow`bg-gray-600 w-full h-full flex`}
-      style="background-image: url('${i.img}'), linear-gradient(to bottom, #333, #111); background-size: cover; background-blend-mode: overlay;"
-    >
-      <div
-        className=${ow`px-24 py-24 bottom-0 opacity-75 transition duration-300 ease-in-out hover:opacity-100 relative z-1 mt-auto`}
-      >
+    <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
+      <div className=${ow`px-24 py-24 bottom-0 relative z-1 mt-auto`}>
         <div
           className=${ow`pl-16 py-16 space-y-8 border-l-4 border-white border-solid`}
         >
           <h1 className=${ow`font-bold cap-36-28 text-white opacity-90`}>
-            ${lorem(6)}
+            ${i.longTitle}
           </h1>
           <h2 className=${ow`font-bold cap-24-32 text-white opacity-90`}>
-            ${lorem(5)}
+            ${i.subTitle}
           </h2>
           <p className=${ow`cap-18-16 max-w-4xl text-white opacity-75`}>
-            ${lorem(30)}
+            ${i.longDescription}
           </p>
           <div className=${ow`flex items-center space-x-2`}>
             <img className=${ow`w-8 -ml-1`} src="read-more.svg" />
@@ -123,4 +120,46 @@ export default {
       </div>
     </div>
   `,
+};
+
+export const template = ({ data, focus }) => {
+  const { ref, width } = useResizeObserver();
+
+  let size = Object.entries({
+    XS: 480,
+    SM: 640,
+    MD: 768,
+    LG: 1024,
+    XL: Infinity,
+  }).find(([, x]) => width < x);
+
+  return html`
+    <div
+      className=${ow`
+          relative
+          flex-1
+          flex
+          flex-col
+          items-start
+          justify-start
+          mr-10
+          mb-10
+          rounded-xl
+          overflow-hidden
+          hover:scale-102
+          transition
+          duration-150
+          ease-in-out
+          hover:cursor-pointer
+          shadow-xl
+          opacity-90
+          hover:opacity-100
+        `}
+      style="flex:${data.priority}px;"
+      ref=${ref}
+      onClick=${(e) => focus(data.id)}
+    >
+      ${size ? card[size[0]](data) : null}
+    </div>
+  `;
 };
