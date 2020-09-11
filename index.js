@@ -15,6 +15,8 @@ export const ow = themed({
 });
 
 import * as Card from './widgets/card.js';
+import * as Grid from './widgets/grid.js';
+import * as Input from './widgets/input.js';
 import Article from './widgets/article.js';
 
 const app = () => {
@@ -26,24 +28,21 @@ const app = () => {
 
   return html`
     <main className=${ow`flex h-screen bg-gray-300`}>
-      <section className=${ow`h-screen overflow-auto w-full px-10`}>
-        <nav className=${ow`w-full flex-none p-10 pb-0 flex space-x-8`}>
-          <input
-            className=${ow`w-full p-6 text-3xl bg-gray-400 rounded-full pl-10 placeholder-gray-600 border-solid border-4 border-gray-500`}
+      <section className=${ow`h-screen overflow-auto w-full p-10 space-y-10`}>
+        <nav className=${ow`w-full flex-none flex space-x-8`}>
+          <${Input.template}
             placeholder="Search for articles.."
             onInput=${(e) => setSearch(e.target.value)}
           />
           <button
-            className=${ow`px-16 rounded-full bg-gray-600 text-2xl font-bold text-gray-400`}
+            className=${ow`px-12 rounded-full bg-gray-600 text-2xl font-bold text-gray-400`}
             onClick=${(e) =>
               setWidgets([...widgets].sort((x) => 0.5 - Math.random()))}
           >
             SHUFFLE
           </button>
         </nav>
-        <div
-          className=${ow`m-auto flex flex-wrap items-stretch pt-10 pl-10 rounded-2xl`}
-        >
+        <${Grid.template}>
           ${widgets
             .filter((x) =>
               x.longTitle.toLowerCase().match(search.toLowerCase())
@@ -56,14 +55,14 @@ const app = () => {
                   focus=${setFocus}
                 />`
             )}
-        </div>
+        <//>
       </section>
       <aside
-        className=${ow`relative flex-shrink-0 bg-gray-200 w-full transition-all duration-300 ease-in-out`}
+        className=${ow`relative bg-gray-200 w-full`}
         style="max-width: ${focus ? '38%' : '0%'}"
       >
         <div
-          className=${ow`absolute inset-0 h-screen overflow-y-auto transition-all duration-500 ease-in-out`}
+          className=${ow`absolute inset-0 h-screen overflow-y-auto`}
           style="opacity: ${focus ? '1' : '0'}"
         >
           <${Article} key=${focus} data=${aside} />

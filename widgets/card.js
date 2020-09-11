@@ -125,13 +125,24 @@ const card = {
 export const template = ({ data, focus }) => {
   const { ref, width } = useResizeObserver();
 
-  let size = Object.entries({
-    XS: 480,
-    SM: 640,
-    MD: 768,
-    LG: 1024,
-    XL: Infinity,
-  }).find(([, x]) => width < x);
+  let child;
+  switch (true) {
+    case width > 1024:
+      child = card['XL'](data);
+      break;
+    case width > 768:
+      child = card['LG'](data);
+      break;
+    case width > 640:
+      child = card['MD'](data);
+      break;
+    case width > 480:
+      child = card['SM'](data);
+      break;
+    default:
+      child = card['XS'](data);
+      break;
+  }
 
   return html`
     <div
@@ -142,8 +153,6 @@ export const template = ({ data, focus }) => {
           flex-col
           items-start
           justify-start
-          mr-10
-          mb-10
           rounded-xl
           overflow-hidden
           hover:scale-102
@@ -159,7 +168,7 @@ export const template = ({ data, focus }) => {
       ref=${ref}
       onClick=${(e) => focus(data.id)}
     >
-      ${size ? card[size[0]](data) : null}
+      ${child}
     </div>
   `;
 };

@@ -1,13 +1,13 @@
 import { html, ow, lorem } from '../index.js';
 
 export default ({ data }) => html`
+  <img
+    src=${data.img}
+    className=${ow`w-full object-cover`}
+    style="height:32em"
+  />
   <article className="prose prose-lg color-white">
-    <img
-      src=${data.img}
-      className=${ow`w-full object-cover`}
-      style="height:32em"
-    />
-    <div className=${ow`p-16 pt-8`}>
+    <div className=${ow`p-16`}>
       <h1>${data.longTitle}</h1>
       <h3>${data.subTitle}</h3>
       <p>${data.longDescription}</p>
