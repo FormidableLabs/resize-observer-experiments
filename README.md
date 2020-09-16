@@ -2,13 +2,17 @@
 
 > Is this the future of web design polymorphic?
 
-I've been working in web design for the past decade and some would say that we have never had it so easy. The plethora of techniques we now have to layout content on the web would make most people's minds boggle. We have relative units of measure like percentages, ems like media queries,
+I've been working in web design for the past decade and some would say that we have never had it so easy. The plethora of techniques we now have to layout content on the web would make most people's minds boggle. But has all this new stuff actually make our life easier or has every _solution_ just unearthed a new set of problems?
+
+In this article we will be looking at how layout on the web went from fixed to fluid and fluid to responsive. Asking ourslves, what's next? Examining if APIs like ResizeObserver can be used in combination with frontend frameworks to help us emulate the legendary element query. Finally we will be creating some _self aware_ UI.
+
+If you are well aware of the history of responsive we design then I suggest you skip the history lesson that is the next couple thousand words and jump straight to the ["but now we have flexbox and media queries what more could we want"]() section.
 
 ## Once upon a time
 
-Ten or fifteen years ago the web was static. These were simpler times, when even the most technologically advanced web sites (like facebook) required users to refresh the page by hitting the "home button" for new content; there was no pull down to refresh or infinite scrolling. Furthermore these sites tended to only render at a single fixed width. Why do you ask? Because the (vast) majority of people interacted with these sites on a desktop computer in a browser which took up the full width of their screen.
+A long time ago the web was static. These were simpler times, when even the most technologically advanced web sites (like facebook) required users to refresh the page by hitting the "home button" for new content; there was no pull down to refresh or infinite scrolling. Furthermore these sites tended to only render at a single fixed width because the vast majority of people interacted with these sites on a desktop computer in a browser which took up the full width of their screen.
 
-Since then the landscape has changed quite dramatically. Fifteen years ago media queries weren't really a thing, ten years ago there was no flexbox, five years ago there was no CSS grid; there just wasn't much _need_ for these things. Everyone was quite content with a 960 pixel grid system and a few percentage widths if you were lucky.
+Fifteen years ago media queries weren't really a thing, ten years ago there was no flexbox, five years ago there was no CSS grid; there just wasn't much _need_ for these things. Everyone was quite content with a 960 pixel grid system and a few percentage widths if you were lucky.
 
 Then the iPhone happened; a handheld device with a fully fledged web browser. It quickly became very popular. The introduction of a new device that people were consuming the world wide web on, with a screen width almost a third of the gold standard and with no physical mouse and keyboard came as quite a shock to the ecosystem.
 
@@ -22,7 +26,7 @@ Eventually, a fix came along in the form of dedicated mobile websites. These wou
 
 This kind of hard binary switching became pretty common place for sites that didn't want to (or that couldn't afford to) build and publish dedicated native mobile applications. In fact, this approach is still actually preferred by quite a few companies, perhaps most notably facebook dot com.
 
-Everyone was quite content with this fix for a while and the mobile web slowly became a little more tolerable. Sure, companies now had to maintain two codebases – one for mobile and one for desktop, which cost more, but not nearly as much as maintaining a native app; at least both interfaces could be written in the same languages HTML/CSS/JS and served up by the same stack.
+Everyone was quite content with this solution for a while and the mobile web slowly became a little more tolerable. Sure, companies now had to maintain two codebases – one for mobile and one for desktop, which cost more, but not nearly as much as maintaining a native app; at least both interfaces could be written in the same languages HTML/CSS/JS and served up by the same stack.
 
 Then the iPad happened and chaos once again ensued.
 
@@ -239,24 +243,106 @@ So I thought screw it, let's try to make a typical card UI and see what happens!
 
 ### Responsive Cards
 
-Inspiration for this came from the new iOS 14 homescreen widgets. The general idea being that the more real estate a widget on the homepage was assigned, the more content it revealed. Applying this idea to a media card resulted in this:
+Inspiration for this came from the new iOS 14 homescreen widgets. The general idea being that the more real estate a widget on the homepage was assigned, the more content it revealed. Applying this to a media card resulted in something like:
 
 [Card being resized](https://user-images.githubusercontent.com/1457604/93281064-2f272780-f7c3-11ea-98ff-92abf0088997.gif)
 
-As you can see in the image above, a card starts out being just a `shortTitle` with a background image. But as it grows, a longer `title` appears, then a `shortDescription`, a longer `description` and a `subTitle`. It is quite satisfying to watch and kind of nice the way the card "filled up" vertically as its horizonal width grew. This gave me an idea.
+A card starts out being just a `shortTitle` with a background image. But as it grows, a longer `title` appears, then a `shortDescription`, a longer `description` and a `subTitle`. Random text content was generated by a small library I wrote called [ipsum](https://github.com/lukejacksonn/ipsum) and the images came from [unsplash](https://source.unsplash.com).
+
+What was kind of crazy here, is that because we were in JavaScript land, we were able to describe not only what styles to apply but also what markup to render at any given size. Taking this line of thought a bit further, you could imagine customizing behaviours (like `onclick` or `onhover`) based on a components size.
+
+It is quite satisfying to watch and kind of nice the way the card "filled up" vertically as its horizonal space grew. This gave me an idea.
+
+### Resizable Flex Grid
 
 Flexbox has this awkward thing it does whereby when two or more siblings in a flex container no longer fit onto a single row, they wrap onto the next "line" a bit like text does. But that sounds great, you might be thinking and you'd be half right. It is cool that siblings squish together until they can't but when they break they go from being very narrow to very wide. This dramatic shift in dimension looks very unnatural more often than not.
 
 I figured that cards filling up vertically with content would make especially elongated cards – like those that were flex children who had just wrapped – look much less sparse and awkward.
 
-### Resizable Flex Grid
-
 At first, three Responsive Cards were added to a flex container.
 
-<img width="1438" alt="Screenshot 2020-09-16 at 02 26 41" src="https://user-images.githubusercontent.com/1457604/93281482-153a1480-f7c4-11ea-9ee0-e007204870c4.png">
- 
+<img width="100%" src="https://user-images.githubusercontent.com/1457604/93281482-153a1480-f7c4-11ea-9ee0-e007204870c4.png">
+
 They were all flexible enough to fit on one row until they weren't, then they broke onto the next line as expected. But instead of ending up with two regular sized cards and one really stretched looking one. Everything appeared quite balanced. The two at the top had expanded to show a title and short description, the one at the bottom had reached the size where it could justify showing a subtitle too.
- 
-<img width="860" alt="Screenshot 2020-09-16 at 02 30 11" src="https://user-images.githubusercontent.com/1457604/93281840-e07a8d00-f7c4-11ea-8fe3-8e84c1ba2d0b.png">
- 
-TBC
+
+<img width="100%" src="https://user-images.githubusercontent.com/1457604/93281840-e07a8d00-f7c4-11ea-8fe3-8e84c1ba2d0b.png">
+
+This was an unexpected side effect of the container query approach and it worked quite nicely but got me wondering, could we make this layout more interesting? It felt quite rigid still at the moment.
+
+To add a bit of variety, I thought about giving each card a sort of "priority" value. This was a numerical value which mapped directly to the elements `flex-basis` or its _ideal width_. What that means is if two cards are sharing a single row and one has priority `480` then it will render approximately double the size of the other that has a priority of `240`. Maybe in reality this value could be derived from a cards _popularity_ metric such as how many clicks it got or how many comments it had, something like that.
+
+<img width="100%" src="https://user-images.githubusercontent.com/1457604/93347183-b52b8880-f82c-11ea-8de4-b234b39c7d85.png">
+
+It worked pretty well for one row even! Already way more visually appealing than seeing three of the same cards in a row. I went ahead and added a load more of these responsive card components to the grid to see what happened.
+
+<img width="1440" src="https://user-images.githubusercontent.com/1457604/93347867-78ac5c80-f82d-11ea-86df-8bd5a1e9f342.png">
+
+Woah.. I was not expecting that! The varying widths were not only creating some nice patterns in the horizontal axis, but the varying amount of content appearing because of the container query approach was adding some realy dynamism to vertical flow too. Smaller cards were being stretched taller when placed next to wider cards that contained more content. Furthermore, when the browser got resized it would push some cards onto the next line which would result in a new combinations of siblings and thus render totally different layouts. Pretty powerful stuff!
+
+It was nice to be able to just throw items – seemingly randomly – into a grid and it "just work" at a variety of sizes without writing a single media query!
+
+Whilst on the topic of grids (and with this new fangled granularity when it comes to applying styles when an element is at a given width or height) there was something else I wanted to iron out. Something that had always annoyed me about grids, and that is maintaining a sensible "gap" between items.
+
+In the example above I'd been using using the CSS property `gap` which has not landed in all browsers yet (just safari actually) and given it a generous value of `3rem` because I wanted the grid to feel nice and relaxed. The problem here becomes apparent when you resize the grid down to the size of an mobile phone say. Suddenly `3rem` of gap looks rediculous!
+
+Lets try fix that with container queries:
+
+![Grid with responsive gap and padding](https://user-images.githubusercontent.com/1457604/93359643-bc599300-f83a-11ea-9912-91199accee28.gif)
+
+In this is example I chose to use CSS grid instead of flexbox but the idea is the same for both. All that's happening here is an appropriate gap (and padding because why not) value is being chosen from a list of possible values, every time the container element width changes:
+
+```js
+const { ref, width, height } = useResizeObserver();
+let gap;
+switch (true) {
+  case width > 720:
+    gap = '3rem';
+    break;
+  case width > 540:
+    gap = '2rem';
+    break;
+  case width > 360:
+    gap = '1rem';
+    break;
+  default:
+    gap = '0.5rem';
+    break;
+}
+```
+
+This isn't rocket science but it's not like anything we have ever been able to do efficiently before and felt like it could be quite a useful generic component. Perhaps you can now imagine components picking values for themselves like this from a theme defined set of breakpoints and spacing units perhaps.
+
+The more adventurous folk might like to try using scalar values for gap, proportional to the elements width:
+
+[Grid with smooth responsive gap and padding](https://user-images.githubusercontent.com/1457604/93370572-ed40c480-f848-11ea-9251-0592d5973063.gif)
+
+This produces a much smoother looking result but at the cost of some consistency; if you had multiple containers like this in a view then there would be a mismatch of gap and padding values all over which might look amiss. This approach reminded me of viewport units which, would have essentially exactly the same affect on a grid that was full screen.
+
+Pondering over the similarities between a element based scalar approach like `gap: ${elementWidth * 0.03}` and a viewport unit approach like `gap: 3vw` made me realise that the real benefit of the resize observer had not really been demonstrated clearly yet.
+
+## All together now
+
+Remembering what Tommy Hodgin had said all that time ago:
+
+> But as soon as one of those responsive tables was displayed in a template that contained a sidebar, suddenly all of my responsive breakpoints turned into responsive brokepoints.
+
+I decided it was time to put the responsive cards and the grid component to the test in more or a "real world" setting. A typical "list and detail" layout, whereby a _list_ of media cards are displayed with some filter options, and when a user clicks on a card, the _detail_ view is rendered in an aside panel adjacent to the list.
+
+Something like this:
+
+[Responsive UI](https://user-images.githubusercontent.com/1457604/93379365-a1e0e300-f855-11ea-85da-448b9ba8ab30.gif)
+
+Now the effects are subtle here (compelling examples are hard to make) but everythings seems to be working as it should. The cards lay themselves out and choose what content to show based on their width, when the details pane is opened, it forces the grid itself to become smaller which in turn reduces the gap between the cards. You might notice as well that the font size of the search input also reduces somewhat when the aside panel is open and thats because it has a resize observer on it too!
+
+You can play around with this interface here:
+http://stack.formidable.com/resize-observer-experiments/index.html
+
+Now, admittedly this demo isn't totally groundbreaking and quite contrived :sweatsmile: but hopefully it serves as inspiration at least, a glimpse at a possible future where components are more _self aware_ like this. It's really interesting to see how all these independantly "responsive" components can be combined to create an interface that works as a whole.
+
+## In summary
+
+I feel like we have only just scratched the surface when it comes to uncovering whats possible with container queries in JS. The ability to modify markup and/or styles reactively at runtime, in an efficient manner like this is certainly a powerful thing, but it requires a lot of careful consideration to get right and it is certainly not applicable everywhere.
+
+It would be fun to play around with some more elements like calendars, clocks, media players, modals, navs, tables and icons as I think nearly all of them could be enriched in one way or another by employing techniques similar to those outlined in this article.
+
+Unfortunately that is all I have time for now. Sincere thanks for reading this far, I hope you learnt something. If you would like to contact me please do so on twitter [@lukejacksonn](https://twitter.com/lukejacksonn) or on [GitHub](https://github.com/lukejacksonn).
