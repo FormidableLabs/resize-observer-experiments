@@ -35,7 +35,7 @@ const app = () => {
               <${Input.template}
                 placeholder="Search for articles.."
                 onInput=${(e) => setSearch(e.target.value)}
-                className=${ow`max-w-full w-full bg-gray-400 rounded-full placeholder-gray-600 border-solid border-4 border-gray-500 text-gray-700`}
+                className=${ow`max-w-full w-full bg-gray-400 rounded-full placeholder-gray-600 text-gray-700`}
               />
             </div>
             <button

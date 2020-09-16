@@ -1,157 +1,236 @@
-# ROE
+# Resize Observer Experiments
 
-> WIP: Some resize observer experiments and demos
+> Is this the future of web design polymorphic?
 
-<img width="1532" alt="ROE" src="https://user-images.githubusercontent.com/1457604/92539838-9e889e80-f23a-11ea-9742-9443e31acb48.png">
+I've been working in web design for the past decade and some would say that we have never had it so easy. The plethora of techniqies we now have to layout content on the web would make most peoples mind boggle. We have relative units of measure like percentages, ems like media queries,
 
-## Background an context
+## Once upon a time
 
-It's 1999, the web is in its infancy. Not everyone has a personal computer in their home, no matter a phone in their pocket. The average screen size is nearly guaranteed to be 640 by 480 pixels. Web design is treated like print design. You are given a fixed size canvas that you can draw shapes on.
+Ten or fifteen years ago the web was static. These were simpler times, when even the most technologically advanced web sites (like facebook) required users to refresh the page ot hit the "home button" for new content; there was no pull down to refresh or infinite scrolling. Furthermore these sites tended to only render at a single fixed width. Why you ask? Because the (vast) majority of people interacted with these sites on a desktop computer in a browser which took up the full width of their screen.
 
-Things are simple and life is good.
+Since then the landscape has changed quite dramatically. Fifteen years ago media queries weren't really a thing, ten years ago there was no flexbox, five years ago there was no CSS grid; there just wasn't much _need_ for these things. Everyone was quite content with a 960 grid and a few percentage widths if you were lucky.
 
-Screen sizes seem to be getting bigger and bigger but the 960px grid layout remains strong. Large gutters start appearing down the side of web cotent but no one really notices. No one expects websites scaling to fit the browser becuase it never has. We accept horizontal scroll willingly.
+Then the iPhone happened; a handheld device with a fully fledged web browser. It quickly became very popular. The introduction of a new device that people were consuming the world wide web on, with a screen width almost a third of the gold standard and with no physical mouse and keyboard came as quite a shock.
 
-Then along comes the iPhone with it's fully fledged web browser rendering at a modest 320px.
+We weren't prepared for this..
 
-Until then our 960px grid is more like a 1280px grid now. Things were getting bigger and bigger meant better! Then we get thown this curveball. How were we meant to adapt our layouts to fit within a third the size of even our defacto standard?!
+## Pinch to zoom
 
-This was the start of what we know today as "Responsive Web Design" but it would be nearly a decade until we understood what that really meant and embraced it fully.
+For a long time users were expected to just lump it whilst we figured out how to make our fixed width work on mobile. We didn't just not have the tools and techniques to accommodate this change, we didn't have the vocabulary as designers and developers either. Eventually, a fix came along in the form of dedicated mobile web sites. These would commonly (and still do, but much less frequently) live under the `m` subdomain. The server would do some user agent sniffing and if it detected that the client was a handheld device then it would redirect the user to a URL like `m.website.com`.
 
-### It's all a matter of perspective
+This kind of hard binary switching became pretty common place for sites that didn't want to (or that couldn't afford to) build and publish a dedicated native mobile application. In fact, this approach is still actually preferred by quite a few companies, even facebook dot com do it still.
 
-For quite a long while there were two main approaches to web design on smaller devices like the iPhone:
+Everyone was quite content for a while and the mobile web slowly became a little more tolerable. Sure, companies now had to maintain two codebases – one for mobile and one for desktop – which cost a little more but still, not nearly as much as maintaining a native app; at least both interfaces could be written in the same languages HTML/CSS/JS and served up by the same stack.
 
-- Ignore the problem entirely holding fast on your pixel perfect 960 grid design and insist that your users pinch to zoom.
-- Start over entirely and develop a native app in a programming language only a select few people were expert in and expect your users to download the 200MB binary in order to read your blog post in a sensible font size.
+Then the iPad happened and chaos once again ensued. Which website do we serve a tablet? Oriented in portrait the viewport dimensions resemble a mobile device.. but in landscape it exhibits desktop like properties. Regardless, the user agent is going to indicate that the UI was being rendered on a mobile device and so serve up the mobile version regardless. That's awkward. Everything looks all stretched out. We'd nailed the 960px layout and the 320px layout but hadn't considered all the widths in between.
 
-It became apparent quite quickly, that neither of these solutions were that ideal. The former, screwed over the user and quite frankly made you look amateur, the latter limited your audience and was likely to make you hungry and homeless due to maintenance cost.
+## Querything the media
 
-But we muddled though one way or another, the iPhone became popular and Apple became very rich; absolutely dominating the market and changing the way people consumed information forever. Once the dust settled, those who could afford it now had apps and those that couldn't, now had sub par web experiences on mobile. That was just how it was.
+We were in a bit of a stuck again. The "view the desktop version of this site" prompt became a thing; which forced the server to serve up the desktop even if you were browsing on mobile or tablet. Not even Apple had figured out how to accommodate this new screen size. Their solution was to offer up a 2x button for native apps, this would scale an app intended for iPhone proportionally, in order to fill the viewport. That's awkward. Everything looks pixelated now.
 
-Then some pioneering web folk came up with an idea:
+Eventually some forward thinking web developers had an idea. Instead of switching subdomains based on user agent, why don't we switch layout based off of the viewport width. This seemed kinda obvious once it had been thought out loud.
 
-> What if, instead of building native apps, we build a dedicated interfaces for mobile devices on the web!
+If only there was some mechanism of detecting the viewport width from within CSS itself. That would be nice. Oh look, there has been "media" detection which allows you to define different styles for print and screen since CSS2. A few specification drafts and requests for comments later the ability to query not just the media type but the dimensions – width, height and orientation – of the viewport from within CSS was supported by most browsers.
 
-This seemed like a pretty good middleground and soon enough the internet was flooded with `http://m.something.com` whereby the `m` subdomain stood for mobile! Servers started user agent sniffing; if a request came from desktop, then serve the regular site, if the request came from mobile, then redirect to the mobile specific site which was optimized for smaller screens.
+This opened up the doors to all kinds of possibilities and layout permutations. This was lucky because soon enough there weren't just 3 screen sizes to worry about, there were hundereds.
 
-### One size fits all
+## Content is like water
 
-Having a normal website and then a mobile specific site was all well and good for the user but it effectively doubled the workload for developers; they now had to maintain two sites instead of one! This would almost definitely work out cheaper and easier than maintaining a native app and at least now both the mobile and desktop interfaces were written in the same language. It certainly wasn't a bad idea.
+So now that we had media queries what excuse did we have for our web sites not looking great on every device? Well to be honest, a lot of the more simple layouts common to the web – like a blogging site or those that revolved around a single column feed – were starting to look pretty good in most viewports, others were passable. With this weight lifted, layouts started to become more and more intricate.
 
-It wasn't uncommon then to find in a single company with two dedicated web teams; one building for mobile and one building for desktop. It was mildly inconvenient, but manageable. It even surfaced some quite interesting mantras like "mobile first" and "progressive enhancement" which have stuck around even until this day.
+As developers and designers now however, there was now _so much_ to consider. Before when we had dedicated mobile and desktop sites, things were pretty binary. If you were lucky, you worked in a company where there was one team dedicated for each platform. Each team would design, build and test one layout. But spinning up another team whenever a new device came out was a scalable approach. Yet the expectation for a mobile friendly interface to morph and adapt to fill available space on desktop was more real than ever.
 
-Everything was rosy. But, then along came the iPad. Admittedly it looked nice, but it wasn't quite a desktop, wasn't quite a mobile device. Uh oh. Which version of the site design shall we serve to these iPad users!
+It became apparent that this kind of polymorphic layout was a _hard_ problem to solve. Like _really hard_. Even with media queries it was non trivial.
 
-It threw the whole industry into turmoil. Not even those who had opted for building and maintaining native apps were safe here. Apple apparently hadn't given much thought to the ramifications of introducing this new screen size to the ecosystem either. Their solution was embarrassingly rudimentary. It came in the form of a 2x button which essentially scaled up a mobile app proportionally to fill the space available on the larger screens. It was awful for a while.
+The problem with media queries are twofold.
 
-The industry had already come to terms with the fact that they now had to design and develop seperate interfaces for mobile (small) and desktop (large) screens but the introduction of a "middle" sized screen suddenly made things more complicated. Employing another team to build a site dedicated to tablets surely wasn't realistic right? Do we need to create the `t` subdomain? If a third screen size could appear just like this, then what do we do when a fourth or a fifth size come along?
+- Firstly, they are global and this really didn't align with the notion of "components" slowly being popularised by libraries lke angular, vue and react. Mapping styles to markup at all the common breakpoints (360, 540, 720, 900, 1080) became unweildly, hard to make guarantees about and thus time consuming to test.
+- Secondly, they were verbose in nature by nature. Essentially media queries translate to a load of if statements. Elements were still blissfully dumb and unaware of their surroundings; their parent or siblings. This meant you had to be very prescriptive about everything.
 
-Hiring a team for every viewport ain't going to scale! Please, there _must_ be another way.
+So we prayed to the CSS gods once more and they delivered us the flexbox specification. An API pthat romised everything.
 
-### Content is like water
+> The Flexbox Layout (Flexible Box) module (a W3C Candidate Recommendation as of October 2017) aims at providing a more efficient way to lay out, align and distribute space among items in a container, even when their size is unknown and/or dynamic.
 
-Its late-naughties now and progress toward finding a solution to the polymorphic layout problem is slow and fragmented. Layouts were still inherently static, just like they had always been. We just maintain two of them now.
+https://css-tricks.com/snippets/css/a-guide-to-flexbox/#flexbox-background
 
-A paradigm shift was well overdue.
+It was a much more "flexible" way of describing layouts. Instead of prescribing _exactly_ how some UI should be layed out on a page, we were able to set tolerable bounds. It was now possible make children of a flex container grow or shrink to take up available space and to share space rationally amongst themselves based on values like intrinsic widths. It felt crazy powerful. Like they had become self aware. Furthermore, these rules were not global, they were scoped to an element by selectors just like other CSS properties.
 
-It's hard to put a finger on exactly when this happened but terms like flexible, liquid, fluid and elastic were being used to describe interfaces now. What did this mean?
+## We want moarrrrr
 
-Put simply, it meant using relative units of measure like percentages when designing user interfaces; a departure from absolute units like pixels we'd used for print like designs. We were succumbing to the cold hard truth that the size of the canvas we drew on could no longer be guaranteed standard issue (like paper sizes were in print design). What's more the canvase is resizable by the user during use; one could rotate their mobile device causing a portrait to landscape switch, or resize their browser window on desktop to use only half the horizontal space in order to arrange browsers side-by-side.
+Flexbox kept us busy for a while.. teams started refactoring everything to be flex (even things that probably shouldn't have been flexed). Although it didn't solve every problem, it did reduce the need for media queries it a lot of instances. This seemed to make everyone happy. However, in typical developer fashion, the more we have we have, the more we want. It seemed like the combination of media queries and flexbox – as powerful as it may be – was still not enough for some people.
 
-Relative units like percentages and ems had always existed in the CSS specification but weren't really necessary because viewports rarely changed size. But now they did.
+Then one day someone came up with the idea of "element queries". A notion whereby developers could control the stylistic properties of an element based on **its** size. Not the media type, not on the size of the viewport but on the size that the element itself was being rendered within its parent. This lines up exceptionally well with the component model that almost everyone has adjusted to now.
 
-Developers started to embrace more of a _constraint based layout_ mentality (a term later used by Apple). Whereby, instead of prescribing _exactly_ how some UI should be layed out on a page, we started assigning content tolerable bounds; things like maximum and minimum widths or automatic margins. After all, if you had a body of text layed out on a canvas, say 960px wide and then that same canvas was resized to 720px. Why wouldn't you want the text to adapt in response to the change, resizing itself in order to maintain a maximum width without overflowing the parent?
+In fact, it has been claimed that "container queries" (which they became more commonly known) is _the_ most requested CSS feature of all time! Well.. I hear you thinking, it _does_ sound pretty powerful. Of course W3C think the same and have surely they implemented now right? That's why you are writing this blog post.. right?
 
-This seems obvious now but was revolutionary at the time. It seemed to alleviate the multitude of problems brought on by the ever growing array of viewport sizes that web sites and apps were expected to work on. Percentages allowed us to smooth over a lot of variation in viewport size, it was now possible to tween between two sizes – say desktop and landscape tablet – without hindering usability and without having to build two explicit layouts or having to worry about all the intermediate sizes too much either.
+Well no. The thing is, container queries are a bit trickier to implement than you might first think. When you start to think about it, everything starts to get a bit loopy, and if you think about it enough, then you might go loopy too.
 
-### Querying the media
+## Round, round, round we go
 
-Both mobile and desktop teams were now using percentages which gave their layouts a bit of wiggle room for when Apple or Samsung undoubtedly released their new flagship device which would usually introduce _yet another_ new aspect ratio to the mix. The would _flex_ slightly to make the most of available space.
+Imagine a scenario whereby container queries exist, you have a child element (an image) within a parent element (a div). The image element is told to be display none until the width of the parent div is less than 320px wide, then the image is told to be display block. So the parent reaches 319px and the image renders, but uh oh.. the images turns out to be 480px wide! This props open the parent element making its width larger than 320px causing it to hide the image, but now the parent has no contents it reverts back to 319px showing the image again. Repeat indefinitely.
 
-There were limitations however.
+This is perhaps a contrived example but hopefully you get the idea and can imagine how the issue might rear its ugly head in various other scenarios.
 
-Although using percentages and floating elements could get you so far. They couldn't bridge the vast differences between most of the dedicated mobile and desktop interfaces.
+In short, the main issue with supporting container queries natively in CSS is that it makes creating infinite loops and cyclic dependencies all too easily. This kind of endless recursion would block up the UI thread entirely and would eventually crash the browser. No bueno.
 
-To demonstrate the problem, imagine a block of text and an image arranged horizintally side-by-side in a container, both set to take up 50% of the width. On a typical desktop viewport, let's say 1080px, this works great as both elements take up 540px. Then the viewport gets shrunk down to 640px, the image and the text are now 320px wide each. This is OK, but the design feeling a little awkward now; the image is maintaining its aspect ratio and so becoming visually smaller, whilst the text is forced to wrap over onto more lines and so is becoming taller. Shrinking the viewport any further horizontally is going to start redering the interface unusable.
+So that's it.. we can't have nice things because of infinite loops?
 
-> We needed a mechanism of being able to reorder, add and remove elements when the viewport is a certain size.
+Well kind of, the consensus is that container queries are probably not going to be implemented in CSS any time soon (if ever, [here is the spec draft](https://tomhodgins.github.io/element-queries-spec/element-queries.html)) but in typical frontend developer fashion, we _could_ implement something similar in JavaScript.
 
-Someone somewhere must have actually read the CSS specification and realised that this was not such a novel request. In fact an API had existed since CSS2 that already did pretty much did exactly what we wanted; it was just triggered by a change in media type – print or screen – rather than viewport width and height generally, which is what we needed. Welcome to the stage **Media Queries**.
+## JavaScript to the rescue
 
-Around this time CSS3 was reaching maturity. Its release made it possible to apply styles when the viewport was a certain size (with `(min-size: 640px)`) or in a certain orientation (with `(orientation: landscape)`). This was absolutely mind blowing at the time.
+Some developers, when get an idea into their head, just can't get it out until they have ran a few experiments themselves to prove or disprove their thesis. The idea of a container query here was no exception. Many people tried and a lot succeeded in creating an implementation that worked.
 
-As always, there were some developers reluctant (rightly or wrongly) to adopt or even try this new API. Eventually it caught on and the industry started to develop a set of standard (but a the same time, almost completely arbitrary) widths – often called breakpoints – which they would aim to adapt interfaces to and appropriate content for. What ended up becoming popularised was the term "adaptive design" which essentially meant, we acknowledge that people might be viewing our website on different sized viewports, so we will produce X amount of layout variations (usually 3) of our website, snapping to the design for the closest breakpoint.
-
-Media queries were and still are actually pretty sufficient for traditional, single or two column style layouts often used for blogging or documenting. Snapping to an appropriate layout from a set of pre-defined options actually made it quite easy to implement, maintain and design content for. But now that we had the ability to reorder/add/remove content at runtime we were expected to create more and more intricate interfaces.
-
-The _business_ was laughing a this point. They went from having two dedicated teams maintaining two codebases, down to one team who was exepected to _do it all_ from a single codebase. Designers and developers on the other hand, were probably sweating. Before all this happened the process of building UI wen't something like:
-
-- Design pixel perfect UI on a fixed size canvas (mobile or desktop)
-- Translate the print out design into HTML and CSS exactly
-- Push to production
-
-Now imagine having to check the UI you are implementing doesn't look broken at any point between the smallest and largest breakpoint. This was (and still kind of is) a QA nightmare.
-
-### How long is a piece of rope
-
-By now developers and designers had kind of got the hang of this Media Query thing. It was a lot of work to maintain and always felt quite fragile but nevertheless the `m` subdomains were dying a slow death. Instead, businesses would commonly opt for a "mobile first" approach to building interfaces on the web.
-
-It had been established that on mobile (narrow portrait viewports) there is really only one way to lay things out and that is in one big column. Anyone who has worked under this mantra before will know that starting like this eliminates so much bull sh\*t. It forces the business/designer/developer to focus on the priority and quality of the content, rather than the positioning of the content. This baseline sets you up for success when adapting the interface to larger screens.. but it still wasn't always trivial to do and it required a lot of up forethought, something "the business" are famously reluctant to budget for.
-
-So when reality hits, content comes in all shapes and sizes; it is often far from normalized no matter prioritized. Not many people consider this but it is the job of the frontend developer to deal with variadic mess of words and images and turn it into something sensical. So we condider it. Consider it a pain in the brain.
-
-The problem wasn't the content per se but rather how verbose and difficult it is to maintain media queries en masse. Like much of CSS, media query declerations are global. By that I mean, you can't scope a media query to an element, you have to nest element styles inside of a media query like this:
+One popular example of such an implementation is [EQCSS](https://elementqueries.com) by [Tommy Hodgins](https://github.com/tomhodgins) and [Maxime Euzière](). More than an implementation in fact, it is a specification that clearly outlines what the syntax should look like in order to be inkeeping with similar CSS functions like media queries.
 
 ```css
-button {
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  button {
-    width: 50%;
+/* Element Query */
+@element div and (min-width: 500px) {
+  :self {
+    background: lime;
   }
 }
 ```
 
-It might not seem like it but this pattern becomes unweildly pretty fast. It feels like this should be possible:
+Above is a snippet from the EQCSS documentation. Notice that `@element` directive working similarly to the the way `@media` works today. What the above statement says is that, when any div on the page is larger than 500px then it should get the rule `background: lime` applied to itself.
 
-```css
-button {
-  width: 100%;
-  @media (min-width: 640px) {
-    width: 50%;
-  }
-}
+Obviously this isn't valid CSS syntax (as much as some people wished it was) so a compiler was written which takes this custom syntax and transforms it into valid CSS equivalent. At the time this _plugin_ was written there was only one realistic way to go about finding elements in the document and applying styles to them and that was nesting `document.querySelector` inside of a `window.resize` event listener.
+
+This was, in essence how EQCSS worked:
+
+```js
+// On resize, scroll, input, click, mousedown + mousemove, call EQCSS.throttle.
+window.addEventListener('resize', EQCSS.throttle)
+window.addEventListener('input', EQCSS.throttle)
+window.addEventListener('click', EQCSS.throttle)
+...
 ```
 
-This makes much more sense in my head and is actually supported by a lot of CSS pre-processor like SASS and SCSS; which just rewrite the latter to the former at build time. Alas, it is not valid CSS. But the more you think about what a media query is, the more it makes sense why this kind of syntax wasn't standardised.
+It was possible to bind `click` or `scroll` event listeners to native HTML elements but there was no element level `resize` listener. This event type was reserved for the `window` object only. This is inconvenient when trying to observe the changes of specific elements. When the window changes size you then have to check everything to see if anything you care about has changed size.
 
-Firstly, nesting in CSS has never been a thing, this would mean making it a thing which is kind of a big deal. Secondly, `@media` uses the viewport as a reference, the outermost container of the whole document, the browser window. Does nesting this kind of logic really make sense? In the example above it is declared that, when a button is rendered on a screen less wide than 640px, then it should take up 100% width (kind of makes sense given that everything is likely to be stacked in a column in this context) but when a button is rendered on a screen wider than 640px it should take up 50% width. Wait, stop.. we just made a huge assumption right there, 50% of what exactly? Well, the window, obviously, you might be thinking. But what guarantees us that the button we are targetting, isn't a child of an element that has a media query associated with it already; perhaps which makes it 50% the width of its parent? If this is the case then the button is going to be 50% width of a 50% with which is actually 25% of the total width of the window. Oh dear.
+Not only is this limitation inconvenient, in the scheme of things it is pretty inefficient too. This is probably why a _throttle_ function was employed; it would limit main thread thrashing as resize events poured in. But all of this was necessary at the time because there was literally no other way. This was the best we got and although it worked, it still didn't really protect against infinite loops that might crash the browser.
 
-> This is a silly example but hopefully it makes the point becuase its very hard to demonstrate
+## I'm just an observer
 
-So this is where Media Queries break down, you can't nest them because in order to do so, you'd need to know not just the size of the viewport (the parent node of the whole document) but more specifically, the size of the parent (and often siblings) of the element you are targetting.
+What we needed was something like `element.addEventListener('resize', callback)` and for years we waited. Then around Feburary 2020, a wild proposal appeared dubbed the [Resize Observer](https://www.w3.org/TR/resize-observer).
 
-Turns out knowing only the size of the window is massively limiting. If you trying figure out how to get nesting working reliably with this model, then just trust me, it will cause you to end up in a recursive hell.
+> The `ResizeObserver` API is an interface for observing changes to Element’s size. It is an Element's counterpart to window.resize event.
 
-### Can't you just work it out
+Oh wowow. This is pretty much exactly what we'd been asking for. So much room for activities! This was great, but it turns out that the API wasn't as straight forward as adding an event listener to an element.
 
-The fact that media queries didn't (or were extremely hard to) scale led to developers looking for smarter solutions to laying out content on a variable sized canvas. Quite conveniently at this time, along came flexbox. This was a new API which let us order and size collections of elements in ways that were weird and wonderful. It seemed to have some kind of intelligence of its own. It was much less prescriptive than media queries (which were all about _doing this at that moment_), they were way more _go with he flow_.
+```js
+// Register instructions to execute
+const ro = new ResizeObserver((entries) => {
+  for (let entry of entries) {
+    if (entry.contentRect.width > 500)
+      entry.target.style.background = 'limegreen';
+  }
+});
+// Pass in elements to execute on
+ro.observe(document.querySelector('div'));
+```
 
-No longer did you need to tell a button to be 50% width when the screen size is 640px. It was more like "Hey, if you can share the space available in your container with your siblings, then go ahead, otherwise feel free to just plop yourself on the next line and take up all the space you like!". It is obviously a little more involved than that (it's not actual magic) but paired with media queries it opened up the doors to all kinds of responsive layouts.
+The above snippet exhibits the same behaviour as the EQCSS snippet; targetting any div over 500px wide and making its background lime green. Personally I'm not the biggest fan of this API but I'm sure it was done for good reason and to be honest it is perfectly workable. Furthermore it addresses the infinite loop issue.
 
-You could instruct elements to "try be small" or "try be large" and to take into consideration things like _intrisic size_ and _size relative to siblings_ which was impossible with CSS up until now. It is a super powerful API but at the same time, it is very hard to configure and make guarantees about. This made flexbox less desirable to manage window level layout (which can be done with media queries) and more appropriate for nested elements where the size of the parent wasn't known.
+As Surma from Google explains very well in his blog on this topic:
 
-Media queries and flexbox are two APIs that are insanely powerful when used in combination. Together they can probably cater to most of our layout need. In fact, nowadays we have more tools and techniques at our disposal than any of us could have ever dreamed of.. but boy is it still hard to get everything lined up nicely on every viewport. Seriously, it's _unbelievably difficult_.
+> ResizeObserver has a mechanism to avoid infinite callback loops and cyclic dependencies. Changes will only be processed in the same frame if the resized element is deeper in the DOM tree than the shallowest element processed in the previous callback. Otherwise, they'll get deferred to the next frame.
 
-It makes you wonder, why? What are we missing?
+He also describes this very well in a video on the topic saying:
 
-### A butterfly flaps its wings
+> It's like reverse event bubbling ... you can only have multiple invocations of your callbacks _downwards_.
 
-Soon enough people started talking about _element queries_. That is what I will be exploring the feasibility of in this report.
+Strictly speaking, this won't stop infinite loops, but rather defers future looping to the next _frame_. Meaning that it won't block the main thread indefinitely. So we still need to be thoughtful about how we apply ResizeObserver but at least we can be sure (or at least presume) that it is doing its job in the most efficient manner properly.
 
-- Recursive problem
-- Area and orientation
-- Variable content
+## I can't believe you've done this
+
+Ok. So we got exactly what we asked for; a super shiny platform level implementation of container queries that allows us to efficiently apply styles to an element – based on properties like width and height – whenever an element changes size. But that was a long story.. remind me, why did we want this again? What a great question.
+
+Did we just make up a problem then make up a solution to it? Probably. But now that this API is supported by [most modern browsers](https://caniuse.com/resizeobserver), let's explore the possibilities a bit futher.
+
+> I created responsive styles using media queries that displayed the table element correctly for browsers of different sizes. But as soon as one of those responsive tables was displayed in a template that contained a sidebar, suddenly all of my responsive breakpoints turned into responsive brokepoints. They simply didn’t account for the 200-pixel-wide sidebar, causing things to overlap and appear broken.
+
+This is a quote from Tommy Hodgins in the article [Element Queries, And How You Can Use Them Today](https://www.smashingmagazine.com/2016/07/how-i-ended-up-with-element-queries-and-how-you-can-use-them-today). It highlights very well the kind of scenario under which container queries might be useful. In fact Tommy went ahead and made a load of demos that demonstrate (duh) numerous applications of EQCSS; featuring but not limited to responsive aspect ratios, grids, cards, calendars, titles, media players, modals, navs, tables and icons.
+
+This plethora of examples was enough to inspire me to make some demos for myself and write this blog post!
+
+## Resize all the things
+
+A lot of the EQCSS demos I found appeared to have been published quite a while ago in JS terms (like over a year). I noticed that they don't rely on a frontend framework either. Usually I'm a proponent of a dependency free approach like this but figured that most web UI I work on nowadays is powered by either react or preact, so any demos I was going to make should probably be setup to work with that kind of setup.
+
+These days I like to use preact for small demos like this. The API is practically identical to that of react but the packages itself is a fraction of the size so everything loads a bit quicker. Anyway, what I'm trying to get to here is that these days, if we want to register listeners like `ResizeObserver` on virtual dom elements then we use hooks.
+
+A resize observer hook would look something like this:
+
+```js
+const useResizeObserver = () => {
+  const ref = useRef(null);
+  const [state, setState] = useState({ width: 0, height: 0 });
+
+  const ro = new ResizeObserver((entries) => {
+    const { width, height } = entries[0].contentRect;
+    setState({
+      width: Math.round(width),
+      height: Math.round(height),
+    });
+  });
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const element = ref.current;
+    ro.observe(element);
+    return () => ro.unobserve(element);
+  }, [ref]);
+
+  return { ref, ...state };
+};
+```
+
+It might look like some complicated code, but what is does is relatively simple and it allows us to hook into the observed size of a particular element `ref.current` in an especially nice way when building components.
+
+```js
+const ResponsiveComponents = () => {
+  const { ref, width, height } = useResizeObserver();
+  return (
+    <div ref={ref}>
+      {width}x{height}
+    </div>
+  );
+};
+```
+
+This is looking good, whats more.. it [actually works](https://esm.codes/#Ly8gUmVzaXplT2JzZXJ2ZXIgZGVtbyBieSBAbHVrZWphY2tzb25uCi8vIC0tLS0tLS0tLS0tLS0tLS0KICAgIAppbXBvcnQgeyByZW5kZXIsIGggfSBmcm9tICdodHRwczovL3VucGtnLmNvbS9wcmVhY3RAbGF0ZXN0P21vZHVsZSc7CmltcG9ydCB7IHVzZVN0YXRlLCB1c2VFZmZlY3QsIHVzZVJlZiB9IGZyb20gJ2h0dHBzOi8vdW5wa2cuY29tL3ByZWFjdEBsYXRlc3QvaG9va3MvZGlzdC9ob29rcy5tb2R1bGUuanM/bW9kdWxlJzsKaW1wb3J0IGh0bSBmcm9tICdodHRwczovL3VucGtnLmNvbS9odG0/bW9kdWxlJzsKaW1wb3J0IG93IGZyb20gJ2h0dHBzOi8vdW5wa2cuY29tL29jZWFud2luZCc7Cgpjb25zdCBodG1sID0gaHRtLmJpbmQoaCk7Cgpjb25zdCB1c2VSZXNpemVPYnNlcnZlciA9ICgpID0+IHsKICBjb25zdCByZWYgPSB1c2VSZWYobnVsbCk7CiAgY29uc3QgW3N0YXRlLCBzZXRTdGF0ZV0gPSB1c2VTdGF0ZSh7IHdpZHRoOiAwLCBoZWlnaHQ6IDAgfSk7CiAgCiAgY29uc3Qgcm8gPSBuZXcgUmVzaXplT2JzZXJ2ZXIoKGVudHJpZXMpID0+IHsKICAgIGNvbnN0IHsgd2lkdGgsIGhlaWdodCB9ID0gZW50cmllc1swXS5jb250ZW50UmVjdDsKICAgIHNldFN0YXRlKHsKICAgICAgd2lkdGg6IE1hdGgucm91bmQod2lkdGgpLAogICAgICBoZWlnaHQ6IE1hdGgucm91bmQoaGVpZ2h0KQogICAgfSk7CiAgfSk7CiAgCiAgdXNlRWZmZWN0KCgpID0+IHsKICAgIGlmICghcmVmLmN1cnJlbnQpIHJldHVybjsKICAgIGNvbnN0IGVsZW1lbnQgPSByZWYuY3VycmVudDsKICAgIHJvLm9ic2VydmUoZWxlbWVudCk7CiAgICByZXR1cm4gKCkgPT4gcm8udW5vYnNlcnZlKGVsZW1lbnQpOwogIH0sIFtyZWZdKTsKCiAgcmV0dXJuIHsgcmVmLCAuLi5zdGF0ZSB9Owp9OwoKY29uc3QgUmVzcG9uc2l2ZUNvbXBvbmVudCA9ICgpID0+IHsKICBjb25zdCB7IHJlZiwgd2lkdGgsIGhlaWdodCB9ID0gdXNlUmVzaXplT2JzZXJ2ZXIoKTsKICByZXR1cm4gKAogICAgaHRtbGAKICAgICAgPGRpdiByZWY9JHtyZWZ9IGNsYXNzTmFtZT0ke293YAogICAgICAgIGZvbnQtc2FucwogICAgICAgIHJlc2l6ZQogICAgICAgIG92ZXJmbG93LWF1dG8KICAgICAgICBiZy1wdXJwbGUtMzAwCiAgICAgICAgZmxleAogICAgICAgIGl0ZW1zLWNlbnRlcgogICAgICAgIGp1c3RpZnktY2VudGVyCiAgICAgICAgdy0zMgogICAgICAgIGgtMzIKICAgICAgYH0+CiAgICAgICAgJHt3aWR0aH0geCAke2hlaWdodH0KICAgICAgPC9kaXY+CiAgICBgCiAgKTsKfTsKCnJlbmRlcigKICBodG1sYAogICAgPG1haW4gY2xhc3NOYW1lPSR7b3dgCiAgICAgIGgtZnVsbAogICAgICBiZy1wdXJwbGUtNTAwCiAgICAgIGZsZXgKICAgICAgaXRlbXMtY2VudGVyCiAgICAgIGp1c3RpZnktY2VudGVyCiAgICAgIGZsZXgtd3JhcAogICAgYH0+CiAgICAgIDwke1Jlc3BvbnNpdmVDb21wb25lbnR9IC8+CiAgICA8L21haW4+CiAgYCwKICBkb2N1bWVudC5ib2R5Cik7):
+
+![Responsive Component](https://user-images.githubusercontent.com/1457604/93271109-66d5a580-f7aa-11ea-851a-df024c7f3f9f.gif)
+
+Sweet. Now we have a template component stucture we can work with. I was curious to see what would happen if you tried to render _lots_ of these things, like 1000? We know one bottleneck of EQCSS is the global `window.resize` listener querying all the elements (so much so it was throttled by default) and that the ResizeObserver was meant to be an _efficient_ alternative in this regard. Would my browser grind to a hault?
+
+Some what to my surprise one thousand `ResponsiveComponent` components in a flex-grid style layout, actually rendered pretty damn smoothly. It felt remarkably responsive when interacting with individual elements. Admittedly the components weren't really having to do much other than render text content but as well, in reality you won't need (at least it's not advisable) to render that many components with resize observers attached anyway.
+
+It was a first attempt at a stress test for the ResizeObserver and it had passed.
+
+## The grass is always greener
+
+All that's left to do now is take everything we have have ever learnt about creating interfaces with a media query mindset and completely forget it. Try make some components using a completely different mental model, that are actually useful.
+
+> It was about this point that I realised _this_ was the tricky bit.
+
+Creating novel and compelling examples for something like this is _hard_. It suddenly dawned on me that there are so many cases where container queries are not or should not be required. Generally, content imposes its requirements on a layout and the layout does its best to adapt in order to accommodate it. Rarely does layout dictate content, but it felt like this is where the power of container like queries lay.
+
+So I thought screw it, let's try make a typical card UI and see what happens!
+
+### Responsive Cards
+
+Inspiration for this came from the new iOS 14 homescreen widgets. The general idea being that the more real estate a widget on the homepage was assigned, the more content it revealed. Applying this idea to a media card resulted in this:
+
+[Card being resized]()
+
+As you can see in the image above, a card starts out being just a `shortTitle` with a background image. But as it grows, a longer `title` appears, then a `shortDescription`, a longer `description` and a `subTitle`. It is quite satisfying to watch and kind of nice the way the card "filled up" vertically as its horizonal width grew. This gave me an idea.
+
+Flexbox has this awkward thing it does whereby when two or more siblings in a flex container no longer fit onto a single row, they wrap onto the next "line" a bit like text does. But that sounds great, you might be thinking and you'd be half right. It is cool that siblings squish together until they can't but when they break they go from being very narrow to very wide. This dramatic shift in dimension looks very unnatural more often than not.
+
+I figured that cards filling up vertically with content would make especially elongated cards – like those that were flex children who had just wrapped – look much less sparse and awkward.
+
+### Resizable Flex Grid
+
+At first, three Responsive Cards were added to a flex container.

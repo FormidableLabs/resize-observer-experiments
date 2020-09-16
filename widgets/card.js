@@ -1,16 +1,19 @@
 import { html, ow, lorem } from '../index.js';
 import useResizeObserver from '../useResizeObserver.js';
 
+const seed = (seed = 2147483646) => () => (seed = (seed * 16807) % 2147483647);
+const rand = (window.rand = seed(1234));
+
 export const collection = () =>
-  Array.from({ length: 12 }, () => {
-    const title = lorem(8);
+  Array.from({ length: 10 }, () => {
+    const title = lorem(6);
     return {
       id: Math.random().toString(36),
       img: `https://source.unsplash.com/collection/1103088/${
-        (1000 + Math.random() * 100) << 0
-      }x${(1000 + Math.random() * 100) << 0}`,
+        1000 + parseInt(('' + rand()).slice(0, 2))
+      }x${1000 + parseInt(('' + rand()).slice(0, 2))}`,
       shortTitle: title.split(' ').slice(0, 2).join(' '),
-      title: title.split(' ').slice(0, 4).join(' '),
+      title: title,
       longTitle: title,
       subTitle: lorem(5),
       shortDescription: lorem(10),
@@ -27,9 +30,7 @@ const card = {
   XS: (i) => html`
     <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
       <div className=${ow`space-y-3 p-10 bottom-0 relative z-1 mt-auto`}>
-        <h1 className=${ow`font-bold cap-20-10 text-white opacity-90`}>
-          ${i.shortTitle}
-        </h1>
+        <h1 className=${ow`font-bold cap-20-10 text-white`}>${i.shortTitle}</h1>
         <div className=${ow`flex items-center space-x-2`}>
           <img className=${ow`w-6 -ml-1`} src="read-more.svg" />
           <a className=${ow`text-white block underline cap-12-0`}>Explore</a>
@@ -40,9 +41,7 @@ const card = {
   SM: (i) => html`
     <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
       <div className=${ow`space-y-6 p-16 bottom-0 relative z-1 mt-auto`}>
-        <h1 className=${ow`font-bold cap-24-18 text-white opacity-90`}>
-          ${i.title}
-        </h1>
+        <h1 className=${ow`font-bold cap-24-18 text-white`}>${i.title}</h1>
         <p className=${ow`cap-13-14 max-w-4xl text-white opacity-75`}>
           ${i.shortDescription}
         </p>
@@ -58,9 +57,7 @@ const card = {
   MD: (i) => html`
     <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
       <div className=${ow`space-y-6 px-24 py-24 bottom-0 relative z-1 mt-auto`}>
-        <h1 className=${ow`font-bold cap-28-20 text-white opacity-90`}>
-          ${i.title}
-        </h1>
+        <h1 className=${ow`font-bold cap-28-20 text-white`}>${i.title}</h1>
         <div className=${ow`w-10 border-1 border-white`}></div>
         <p className=${ow`cap-14-14 max-w-4xl text-white opacity-75`}>
           ${i.description}
@@ -77,12 +74,8 @@ const card = {
   LG: (i) => html`
     <div className=${ow`bg-gray-600 w-full h-full flex`} style="${bg(i)}">
       <div className=${ow`space-y-6 px-24 py-24 bottom-0 relative z-1 mt-auto`}>
-        <h1 className=${ow`font-bold cap-30-24 text-white opacity-90`}>
-          ${i.title}
-        </h1>
-        <h2 className=${ow`font-bold cap-20-18 text-white opacity-90`}>
-          ${i.subTitle}
-        </h2>
+        <h1 className=${ow`font-bold cap-30-24 text-white`}>${i.title}</h1>
+        <h2 className=${ow`font-bold cap-20-18 text-white`}>${i.subTitle}</h2>
         <p className=${ow`cap-16-16 max-w-4xl text-white opacity-75`}>
           ${i.description}
         </p>
@@ -101,12 +94,10 @@ const card = {
         <div
           className=${ow`pl-16 py-16 space-y-8 border-l-4 border-white border-solid`}
         >
-          <h1 className=${ow`font-bold cap-36-28 text-white opacity-90`}>
+          <h1 className=${ow`font-bold cap-36-28 text-white`}>
             ${i.longTitle}
           </h1>
-          <h2 className=${ow`font-bold cap-24-32 text-white opacity-90`}>
-            ${i.subTitle}
-          </h2>
+          <h2 className=${ow`font-bold cap-24-32 text-white`}>${i.subTitle}</h2>
           <p className=${ow`cap-18-16 max-w-4xl text-white opacity-75`}>
             ${i.longDescription}
           </p>
@@ -161,7 +152,6 @@ export const template = ({ data, focus }) => {
           ease-in-out
           hover:cursor-pointer
           shadow-xl
-          opacity-90
           hover:opacity-100
         `}
       style="flex:${data.priority}px;"

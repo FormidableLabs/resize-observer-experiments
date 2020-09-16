@@ -20,8 +20,6 @@ export const template = (props) => {
       break;
   }
 
-  console.log(width);
-
   return html`
     <div ref=${ref}>
       <input className="${style} ${className}" ...${rest} />

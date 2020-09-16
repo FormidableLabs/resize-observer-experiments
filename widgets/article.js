@@ -16,11 +16,8 @@ export default ({ data }) => {
     case width > 640:
       proseSize = 'prose-md';
       break;
-    case width > 480:
-      proseSize = 'prose-sm';
-      break;
     default:
-      proseSize = 'prose-xs';
+      proseSize = 'prose-sm';
       break;
   }
 
@@ -37,23 +34,24 @@ export default ({ data }) => {
     <img
       src=${data.img}
       className=${ow`w-full object-cover`}
-      style="height:32em"
+      style="height:62vh"
     />
-    <article
-      ref=${ref}
-      key=${data.id}
-      className="prose ${proseSize} color-white"
-    >
-      <div className=${ow`p-16`}>
-        <h1>${data.longTitle}</h1>
-        <h2>${data.subTitle}</h2>
-        <p>${data.longDescription}</p>
-        <img
-          className=${ow`py-6`}
-          src="https://source.unsplash.com/collection/1103088/${state.img}"
-        />
-        ${state.body}
-      </div>
-    </article>
+    <div ref=${ref} className=${ow`w-full flex`}>
+      <article
+        key=${data.id}
+        className="prose ${proseSize} color-white ${ow`mx-auto`}"
+      >
+        <div className=${ow`p-16`}>
+          <h1>${data.longTitle}</h1>
+          <h2>${data.subTitle}</h2>
+          <p>${data.longDescription}</p>
+          <img
+            className=${ow`py-6`}
+            src="https://source.unsplash.com/collection/1103088/${state.img}"
+          />
+          ${state.body}
+        </div>
+      </article>
+    </div>
   `;
 };
