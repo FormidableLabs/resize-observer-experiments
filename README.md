@@ -223,7 +223,7 @@ So I thought screw it, let's try make a typical card UI and see what happens!
 
 Inspiration for this came from the new iOS 14 homescreen widgets. The general idea being that the more real estate a widget on the homepage was assigned, the more content it revealed. Applying this idea to a media card resulted in this:
 
-[Card being resized]()
+[Card being resized](https://user-images.githubusercontent.com/1457604/93281064-2f272780-f7c3-11ea-98ff-92abf0088997.gif)
 
 As you can see in the image above, a card starts out being just a `shortTitle` with a background image. But as it grows, a longer `title` appears, then a `shortDescription`, a longer `description` and a `subTitle`. It is quite satisfying to watch and kind of nice the way the card "filled up" vertically as its horizonal width grew. This gave me an idea.
 
@@ -234,3 +234,11 @@ I figured that cards filling up vertically with content would make especially el
 ### Resizable Flex Grid
 
 At first, three Responsive Cards were added to a flex container.
+
+<img width="1438" alt="Screenshot 2020-09-16 at 02 26 41" src="https://user-images.githubusercontent.com/1457604/93281482-153a1480-f7c4-11ea-9ee0-e007204870c4.png">
+
+They were all flexible enough to fit on one row until they weren't, then they broke onto the next line as expected. But instead of ending up with two regular sized cards and one really stretched looking one. Everything appeared quite balanced. The two at the top had expanded to show a title and short description, the one at the bottom had reached the size where it could justify showing a subtitle too.
+
+<img width="860" alt="Screenshot 2020-09-16 at 02 30 11" src="https://user-images.githubusercontent.com/1457604/93281840-e07a8d00-f7c4-11ea-8fe3-8e84c1ba2d0b.png">
+
+TBC
