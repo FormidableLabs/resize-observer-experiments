@@ -346,3 +346,8 @@ I feel like we have only just scratched the surface when it comes to uncovering 
 It would be fun to play around with some more elements like calendars, clocks, media players, modals, navs, tables and icons as I think nearly all of them could be enriched in one way or another by employing techniques similar to those outlined in this article.
 
 Unfortunately that is all I have time for now. Sincere thanks for reading this far, I hope you learnt something. If you would like to contact me please do so on twitter [@lukejacksonn](https://twitter.com/lukejacksonn) or on [GitHub](https://github.com/lukejacksonn).
+
+
+## Maintenance Status
+
+**Archived:** This project is no longer maintained by Formidable. We are no longer responding to issues or pull requests unless they relate to security concerns. We encourage interested developers to fork this project and make it their own!
